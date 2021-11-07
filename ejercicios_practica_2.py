@@ -10,11 +10,12 @@
 # Ejercicios con archivos
 
 import csv
+import os
+from pathlib import Path
 
 
 def ej3():
     print('Ejercicio de archivos CSV 1º')
-    archivo = 'stock.csv'
     
     # Realice un programa que abra el archivo 'stock.csv'
     # en modo lectura y cuente el stock total de tornillos
@@ -27,8 +28,39 @@ def ej3():
     # para cumplir con el enunciado del ejercicio
 
     # Comenzar aquí, recuerde el identado dentro de esta funcion
-    
+    # tornillos = list(csv.DictReader(f))
+    # for tornillo in tornillos:
+    #     print(tornillo['tornillos'])
 
+    # f.close()
+
+    '''
+    COMENTARIOS ADICIONALES DEL CODIGO
+    En el caso de mi pc, necesite utilizar pathlib ya que no me reconocia la ruta 
+    donde estaba trabajando el codigo
+    '''
+    print(os.getcwd()) 
+    ruta = 'Modulo_5\\archivos_python'
+    archivo = 'stock.csv'
+
+    
+    p_def =os.path.join(ruta,archivo)
+    print('p_def ', p_def)
+    p = Path(p_def)
+    if p.is_file():
+        print("El Archivo existe!")
+        f = open(p, 'r')
+        reg_stock = list(csv.DictReader(f))
+        tot_reg_stock = 0
+        for tornillo in reg_stock:
+            # print(tornillo['tornillos'])
+            tot_reg_stock += int( tornillo['tornillos'])
+        
+        f.close()
+        print('Stock de tornillos ', tot_reg_stock)
+    else:
+        print("El archivo no existe o no se encuentra! ha ocurrido un error tipo IOError ")
+    
 
 def ej4():
     print('Ejercicios con archivos CSV 2º')
@@ -47,6 +79,39 @@ def ej4():
     # utilizando "try except", tema que se verá la clase que viene.
 
     # Comenzar aquí, recuerde el identado dentro de esta funcion
+
+    print(os.getcwd()) 
+    ruta = 'Modulo_5\\archivos_python'
+    
+
+    p_def =os.path.join(ruta,archivo)
+    print('p_def ', p_def)
+    p = Path(p_def)
+    if p.is_file():
+        print("El Archivo existe!")
+        f = open(p, 'r')
+        data = list(csv.DictReader(f))
+        # print(data)
+        f.close()
+
+        deptos_2_amb = 0
+        deptos_3_amb = 0
+        for depto in data:
+            if depto['tipo_propiedad']== 'Departamento':
+                try:
+                    if (depto['ambientes'] == '2'):
+                        deptos_2_amb +=1
+                    elif (depto['ambientes'] == '3'):
+                        deptos_3_amb +=1
+                except:
+                    print('Error, existen departamentos sin ambientes declarados. ')
+
+        print('La cantidad de departamentos de 2 ambientes es: ', deptos_2_amb)
+        print('La cantidad de departamentos de 3 ambientes es: ', deptos_3_amb)
+
+            
+    else:
+        print("El archivo no existe o no se encuentra! ha ocurrido un error tipo IOError ")
 
 
 if __name__ == '__main__':
